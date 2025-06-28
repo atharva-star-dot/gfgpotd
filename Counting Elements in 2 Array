@@ -1,0 +1,45 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+import java.util.*;
+
+class Solution {
+
+    // Function to count elements less than or equal to each element in array a from array b
+    public static ArrayList<Integer> countLessEq(int a[], int b[]) {
+        Arrays.sort(b);  // Sort array b to use binary search
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for (int num : a) {
+            int count = upperBound(b, num);  // Count how many elements <= num
+            result.add(count);
+        }
+
+        return result;
+    }
+
+    // Helper method to find the index of the first element greater than target
+    private static int upperBound(int[] arr, int target) {
+        int low = 0, high = arr.length;
+
+        while (low < high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] <= target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        return low;  // Position of first element > target = count of elements <= target
+    }
+
+    // Main method to run 
+    public static void main(String[] args) {
+        int[] a = {1, 2, 3};
+        int[] b = {2, 3, 4};
+
+        ArrayList<Integer> result = countLessEq(a, b);
+        System.out.println("Count of elements in b less than or equal to each in a: " + result);
+    }
+}
