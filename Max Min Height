@@ -1,0 +1,69 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+
+public class Main {
+
+    static class Solution {
+        public boolean isPossible(int[] arr, int k, int w, int mid) {
+            int[] flowers = Arrays.copyOf(arr, arr.length);
+
+            for (int i = 0; i < flowers.length; i++) {
+                if (flowers[i] < mid) {
+                    int value = mid - flowers[i];
+                    if (value > k) {
+                        return false;
+                    }
+                    k -= value;
+                    for (int j = i; j < Math.min(flowers.length, i + w); j++) {
+                        flowers[j] += value;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public int maxMinHeight(int[] arr, int k, int w) {
+            int mn = Integer.MAX_VALUE;
+            int n = arr.length;
+            int ans = 0;
+            for (int i = 0; i < n; i++)
+                mn = Math.min(arr[i], mn);
+            int low = mn, high = mn + k;
+
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (isPossible(arr, k, w, mid)) {
+                    ans = mid;
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+            return ans;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input: array size
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // Input: array elements
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // Input: k and w
+        int k = sc.nextInt();
+        int w = sc.nextInt();
+
+        Solution sol = new Solution();
+        int result = sol.maxMinHeight(arr, k, w);
+
+        // Output: result
+        System.out.println(result);
+    }
+}
