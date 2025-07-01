@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Read the input string
+        String s = sc.nextLine();
+        
+        // Read the value of k
+        int k = sc.nextInt();
+        
+        // Call the function and print the result
+        Solution sol = new Solution();
+        int result = sol.substrCount(s, k);
+        System.out.println(result);
+    }
+}
+
+class Solution {
+    public int substrCount(String s, int k) {
+        int count = 0;
+        int len = s.length();
+        for (int i = 0; i <= len - k; i++) {
+            Set<Character> ans = new HashSet<>();
+            for (int j = i; j < k + i; j++) {
+                ans.add(s.charAt(j));
+            }
+            if (ans.size() == k - 1) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
