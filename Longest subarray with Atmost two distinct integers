@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Solution {
+    public int longestSubarrayWithAtMostTwoDistinct(int[] nums) {
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        int maxLength = 0;
+        int left = 0, right = 0;
+
+        while (right < nums.length) {
+            frequencyMap.put(nums[right], frequencyMap.getOrDefault(nums[right], 0) + 1);
+
+            while (frequencyMap.size() > 2) {
+                frequencyMap.put(nums[left], frequencyMap.get(nums[left]) - 1);
+                if (frequencyMap.get(nums[left]) == 0) {
+                    frequencyMap.remove(nums[left]);
+                }
+                left++;
+            }
+
+            maxLength = Math.max(maxLength, right - left + 1);
+            right++;
+        }
+
+        return maxLength;
+    }
+
+    // Main method to test
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] inputArray = {1, 2, 1, 2, 3}; // Example input
+        int result = solution.longestSubarrayWithAtMostTwoDistinct(inputArray);
+        System.out.println("Longest subarray length with at most two distinct elements: " + result);
+    }
+}
